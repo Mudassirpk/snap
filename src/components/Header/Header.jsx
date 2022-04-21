@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import img from "./../../Images/logo.svg";
 
@@ -10,32 +10,26 @@ import { AiFillBell } from "react-icons/ai";
 import { FcClock } from "react-icons/fc";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
+
 function Header() {
   const [openFeatures, setOpenFeatures] = useState(false);
   const [openCompany, setOpenCompany] = useState(false);
-  const [side, setSideBar] = useState(0);
-
-  function handleSidebar() {
-    if (side === 0) {
-      setSideBar("full");
-    } else if (side === "full") {
-      setSideBar(0);
-    }
-  }
+  const [side, setSideBar] = useState(true);
 
   return (
-    <header className="flex justify-between items-center w-[100%] px-[5%]">
+    <header className="flex select-none justify-between items-center w-[100%] px-[5%]">
       <div className="flex items-center py-5 ">
         <div>
           <img src={img} alt="snap" />
         </div>
         <div
-          className={`ml-10 sm:absolute sm:h-full sm:w-${side} sm:overflow-hidden sm:right-0 sm:bg-[rgba(0,0,0,.5)] sm:top-0`}
+          className={`ml-10 sm:absolute sm:h-full sm:w-full sm:ml-0 sm:overflow-hidden sm:right-0 sm:bg-[rgba(0,0,0,.5)] sm:top-0`}
+          id={`${side ? "sidebar-closed" : "sidebar-expanded"}`}
         >
           <ul className="flex items-center gap-6 select-none sm:w-[50%] sm:px-4 sm:bg-white sm:ml-[50%] sm:flex-col sm:h-full sm:items-start sm:py-10 sm:gap-2">
             <ImCross
               className="self-end text-2xl -mt-4 cursor-pointer hidden sm:block"
-              onClick={handleSidebar}
+              onClick={() => setSideBar(!side)}
             />
             <li className="flex relative gap-2 items-center sm:items-start sm:flex-col cursor-pointer">
               <p className="flex items-center gap-2 sm:left-2">
@@ -50,7 +44,7 @@ function Header() {
               </p>
 
               {openFeatures ? (
-                <ul className="absolute -left-3 p-2 sm:p-0 sm:ml-8 sm:relative sm:top-1 top-6">
+                <ul className="absolute -left-3 p-2 sm:p-0 bg-white sm:ml-8 sm:relative rounded-lg sm:top-1 top-6">
                   <li className="my-2 flex w-40 gap-2 items-center text-slate-500">
                     <FcTodoList className="text-indigo-600" /> Todo List
                   </li>
@@ -77,7 +71,7 @@ function Header() {
                 )}
               </p>
               {openCompany ? (
-                <ul className="absolute -left-3 sm:relative p-2 top-6 sm:py-0 sm:ml-8 sm:top-0">
+                <ul className="absolute -left-3 sm:relative p-2 bg-white rounded-lg top-6 sm:py-0 sm:ml-8 sm:top-0">
                   <li className="text-slate-500 my-2">History</li>
                   <li className="text-slate-500 my-2">Our Team</li>
                   <li className="text-slate-500 my-2">Blog</li>
@@ -99,7 +93,7 @@ function Header() {
       </div>
       <GiHamburgerMenu
         className="text-2xl cursor-pointer hidden sm:block"
-        onClick={handleSidebar}
+        onClick={() => setSideBar(!side)}
       />
     </header>
   );
